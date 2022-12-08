@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -276,5 +277,42 @@ public class BrowserUtils {
 
   public static void openUrl(String str) {
     Driver.getDriver().navigate().to(str);
+  }
+
+  public static void scrollDown() {
+    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+    js.executeScript("window.scrollBy(0,2000)");
+  }
+
+  public static void scrollUp() {
+    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+    js.executeScript("window.scrollBy(0,-2000)");
+  }
+
+  public static void navigateBack() {
+    Driver.getDriver().navigate().back();
+  }
+
+  public static void navigateToSecondTab() {
+    ArrayList<String> tabs = new ArrayList(Driver.getDriver().getWindowHandles());
+    if (tabs.size() >= 2) {
+      Driver.getDriver().switchTo().window(tabs.get(1));
+    } else {
+      throw new NullPointerException("Second tab not found");
+    }
+  }
+
+  public static void closeSecondTab() {
+    ArrayList<String> tabs = new ArrayList(Driver.getDriver().getWindowHandles());
+    if (tabs.size() >= 2) {
+      Driver.getDriver().close();
+      Driver.getDriver().switchTo().window(tabs.get(0));
+    } else {
+      throw new NullPointerException("Second tab not found");
+    }
+  }
+
+  public static void refreshPage() {
+    Driver.getDriver().navigate().refresh();
   }
 }
